@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Welcome, <%= user.firstname %>!</h1>
+
+  <form action="/messages/new" method="POST">
+    <textarea name="content" placeholder="Write your message here..." required></textarea>
+    <button type="submit">Post Message</button>
+  </form>
+
+  <a href="/auth/logout">Logout</a>
+</body>
+</html>

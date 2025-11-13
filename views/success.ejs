@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Success</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f7f7f7;
+    }
+    .popup {
+      position: relative;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 300px;
+    }
+    .popup h2 {
+      margin: 0 0 20px;
+      color: #007bff;
+    }
+    .progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: #007bff;
+      width: 100%;
+      transition: width linear;
+    }
+  </style>
+</head>
+<body>
+  <div class="popup">
+    <h2><%= message %></h2>
+    <div class="progress" id="progressBar"></div>
+  </div>
+
+  <script>
+    // Receding progress line over 3 seconds
+    const progress = document.getElementById('progressBar');
+    let width = 100;
+    const interval = 30; // ms
+    const step = (100 / 3000) * interval;
+
+    const timer = setInterval(() => {
+      width -= step;
+      if (width <= 0) {
+        clearInterval(timer);
+        window.location.href = "<%= redirectUrl %>";
+      } else {
+        progress.style.width = width + '%';
+      }
+    }, interval);
+  </script>
+</body>
+</html>
