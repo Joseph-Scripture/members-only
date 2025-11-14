@@ -1,30 +1,28 @@
 const bcrypt = require('bcryptjs');
 const prisma = require('../prisma/client');
 const passport = require('passport');
+const { validationResult } = require('express-validator');
+
 exports.signup_post = async (req, res) => {
+  // Handle validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.render('signup', { 
+      error: errors.array()[0].msg,  // Show the first error
+      success: null
+    });
+  }
+
+  const { firstname, lastname, email, password } = req.body;
+
   try {
-    const { firstname, lastname, email, password } = req.body;
-
-    // Password validation
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
-
-    if (!passwordRegex.test(password)) {
-      return res.render("signup", {
-        error: "Password must be at least 8 chars, include uppercase, lowercase, and a special character.",
-        success: null
-      });
-    }
-
-    // Check if email exists
+    // Check if email already exists
     const existingUser = await prisma.user.findUnique({ where: { email } });
-
     if (existingUser) {
-      return res.render("signup", { 
-        error: "Email already in use.",
-        success: null
-      });
+      return res.render('signup', { error: 'Email already in use', success: null });
     }
 
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
@@ -32,23 +30,19 @@ exports.signup_post = async (req, res) => {
     });
 
     req.login(user, err => {
-      if (err) {
-        return res.render("signup", { error: "Error logging in after signup.", success: null });
-      }
+      if (err) return res.render('signup', { error: 'Login after signup failed', success: null });
 
-      return res.render("success", {
-        success: "Signup successful! Redirecting...",
-        error: null,
-        redirectUrl: "/dashboard"
+      return res.render('success', {
+        message: 'Signup successful! Redirecting...',
+        redirectUrl: '/dashboard',
+        error: null
       });
     });
-
   } catch (err) {
     console.error(err);
-    return res.render("signup", { error: "Server error.", success: null });
+    res.render('signup', { error: 'Server error', success: null });
   }
 };
-
 
 
 exports.login_post = (req, res, next) => {
