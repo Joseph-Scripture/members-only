@@ -3,5 +3,5 @@ function ensureAuthenticated(req, res, next) {
     return res.redirect('/auth/login');
   }
   
-  module.exports = ensureAuthenticated;
+module.exports = ensureAuthenticated;
   

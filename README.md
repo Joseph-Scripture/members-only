@@ -1,5 +1,7 @@
 # members-only
+
 ## A social application that lets users
+
 -signup
 -login
 -post and view messages
@@ -11,4 +13,3 @@
 -Authentication using passport.local
 -prisma model architecture
 -serving dynamic data using ejs
-

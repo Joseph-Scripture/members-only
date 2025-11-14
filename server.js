@@ -13,6 +13,7 @@ const userRouter = require('./src/routes/userRoutes');
 const homeRouter = require('./src/routes/homeRoute')
 const messageRouter = require('./src/routes/messagesRoutes');
 const dashboardRouter = require('./src/routes/dashboardRoutes');
+const signupRoute = require('./src/routes/auth')
 
 
 
@@ -91,6 +92,7 @@ app.use('/', homeRouter);
 app.use('/messages', messageRouter);
 // app.use('/dashboard', dashboardRouter);
 app.use('/dashboard', dashboardRouter);
+app.use('/auth', signupRoute)
   
 
 app.listen(PORT, (error) => {

@@ -8,7 +8,7 @@ exports.home_get = async (req, res) => {
     });
 
     res.render('home', {
-      user: req.user,   // null if not logged in
+      user: req.user,   
       messages
     });
 

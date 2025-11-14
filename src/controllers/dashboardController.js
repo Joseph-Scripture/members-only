@@ -5,7 +5,7 @@ exports.dashboard_get = async (req, res) => {
     const messages = await prisma.message.findMany({
       orderBy: { id: 'desc' },
       include: {
-        user: true, // gives us firstname, lastname, email
+        user: true, 
       }
     });
 
