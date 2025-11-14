@@ -1,18 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
+  <meta charset="UTF-8">
+  <title>Signup</title>
+  <link rel="stylesheet" href="/css/auth.css">
 </head>
+
 <body>
-    <form action="/auth/signup" method="POST">
-        <input type="text" name="firstname" placeholder="First Name" required />
-        <input type="text" name="lastname" placeholder="Last Name" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button type="submit">Sign Up</button>
-      </form>
-      
+
+<div class="auth-container">
+
+  <h2>Create Your Account</h2>
+
+  <% if (error) { %>
+      <div class="error-box"><%= error %></div>
+  <% } %>
+
+  <form method="POST" action="/auth/signup" class="auth-form">
+    <label>First Name</label>
+    <input type="text" name="firstname" required>
+
+    <label>Last Name</label>
+    <input type="text" name="lastname" required>
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Password</label>
+    <input type="password" name="password" required>
+
+    <button type="submit">Sign Up</button>
+  </form>
+
+  <p class="switch-text">
+    Already have an account?
+    <a href="/auth/login">Login here</a>
+  </p>
+
+</div>
+
 </body>
 </html>

@@ -1,11 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+  <meta charset="UTF-8">
+  <title>Home</title>
+
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      padding: 2rem;
+      background: #f8fafc;
+    }
+
+    nav {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    a {
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 500;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .message {
+      background: white;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-top: 1.2rem;
+    }
+
+    .author {
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 0.3rem;
+    }
+
+    .anonymous {
+      font-weight: bold;
+      color: #6b7280;
+      margin-bottom: 0.3rem;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
+
 <body>
-    
+
+<nav>
+  <% if (!user) { %>
+      <a href="/auth/login">Login</a>
+      <a href="/auth/signup">Signup</a>
+  <% } else { %>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/auth/logout">Logout</a>
+  <% } %>
+</nav>
+
+<div class="container">
+  <h1>Community Messages</h1>
+
+  <% messages.forEach(msg => { %>
+    <div class="message">
+
+      <% if (user) { %>
+          <div class="author">
+            <%= msg.user.firstname %> <%= msg.user.lastname %>
+          </div>
+      <% } else { %>
+          <div class="anonymous">
+            Anonymous User
+          </div>
+      <% } %>
+
+      <p><%= msg.content %></p>
+    </div>
+  <% }) %>
+
+</div>
+
 </body>
 </html>

@@ -10,8 +10,13 @@ const bcrypt = require('bcryptjs');
 
 // Importing Routes
 const userRouter = require('./src/routes/userRoutes');
-const dashboardRouter = require('./src/routes/dashboardRoutes');
 const homeRouter = require('./src/routes/homeRoute')
+const messageRouter = require('./src/routes/messagesRoutes');
+const dashboardRouter = require('./src/routes/dashboardRoutes');
+
+
+
+
 
 PORT = process.env.PORT || 3000;
 
@@ -77,14 +82,12 @@ app.use(session({
     }
   });
   
-  // Routes
-  app.use('/auth', userRouter);
-  app.use('/', homeRouter);
-  
-
-
-
-  app.use('/dashboard', dashboardRouter);
+// Routes
+app.use('/auth', userRouter);
+app.use('/', homeRouter);
+app.use('/messages', messageRouter);
+app.use('/dashboard', dashboardRouter);
+app.use('/dashboard', dashboardRouter);
   
 
 app.listen(PORT, (error) => {
