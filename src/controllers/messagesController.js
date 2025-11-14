@@ -1,17 +1,25 @@
 const prisma = require('../prisma/client');
 
-async function createMessage(req, res){
-    const {content} = req.body;
-    
-    const createMessage = prisma.message.create({
-        data:{
-            content,
-            include:{
-                user:req.user
-            }
-        }
+exports.createMessage = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.redirect('/auth/login');
+    }
 
-    })
+    const { content } = req.body;
 
-}
-module.exports = createMessage
+    const message = await prisma.message.create({
+      data: {
+        content,
+        userId: req.user.id
+      }
+    });
+
+    // Redirect back to dashboard or home
+    res.redirect('/dashboard');
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error creating message");
+  }
+};

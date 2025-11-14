@@ -15,6 +15,8 @@ const homeRouter = require('./src/routes/homeRoute')
 
 PORT = process.env.PORT || 3000;
 
+// Don't spend a lot of time wondering how people perceive you it'll change eventually as long as you keep on winning
+// 693667272
 
 const app = express();
 app.use(express.json());
@@ -36,27 +38,30 @@ app.use(session({
   app.use(passport.initialize());
   app.use(passport.session());
   
-  // Passport local strategy for login
-  passport.use(new LocalStrategy(async function (username, password, done) {
-    try {
-      const user = await prisma.user.findUnique({
-        where: { firstname: username }
-      });
+  passport.use(new LocalStrategy(
+    { usernameField: 'email' },   // IMPORTANT
+    async function(email, password, done) {
+      try {
+        const user = await prisma.user.findUnique({
+          where: { email }
+        });
   
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
+        if (!user) {
+          return done(null, false, { message: 'Email not found.' });
+        }
+  
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) {
+          return done(null, false, { message: 'Incorrect password.' });
+        }
+  
+        return done(null, user);
+  
+      } catch (err) {
+        return done(err);
       }
-  
-      const match = await bcrypt.compare(password, user.password);
-      if (!match) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-  
-      return done(null, user);
-    } catch (err) {
-      return done(err);
     }
-  }));
+  ));
   
   // Serialize and deserialize users for sessions
   passport.serializeUser((user, done) => {

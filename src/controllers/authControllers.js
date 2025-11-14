@@ -1,44 +1,46 @@
 const bcrypt = require('bcryptjs');
 const prisma = require('../prisma/client');
 const passport = require('passport');
-
 exports.signup_post = async (req, res) => {
   try {
-    const { firstname, lastname, password } = req.body;
+    const { firstname, lastname, email, password } = req.body;
 
-    // Check if user exists
-    const existingUser = await prisma.user.findFirst({ where: { firstname } });
-    if (existingUser) {
-      return res.render('signup', { error: 'User already exists' });
-    }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create new user
-    const user = await prisma.user.create({
-      data: { firstname, lastname, password: hashedPassword },
+    // Check if email already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email }
     });
 
-    // Automatically log in user after signup
-    req.login(user, (err) => {
-      if (err) {
-        console.error(err);
-        return res.render('signup', { error: 'Login after signup failed' });
-      }
+    if (existingUser) {
+      return res.render('signup', { error: 'Email already in use' });
+    }
 
-      // Render success page with popup + redirect
-      return res.render('success', {
-        message: 'Signup successful!',
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        firstname,
+        lastname,
+        email,
+        password: hashedPassword
+      }
+    });
+
+    // Auto-login after signup
+    req.login(user, (err) => {
+      if (err) return res.render('signup', { error: 'Login failed' });
+
+      res.render('success', {
+        message: `Welcome aboard, ${user.firstname}!`,
         redirectUrl: '/dashboard'
       });
     });
 
   } catch (err) {
     console.error(err);
-    res.render('signup', { error: 'Server error during signup' });
+    res.render('signup', { error: 'Server error. Try again.' });
   }
 };
+
 
 exports.login_post = (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {

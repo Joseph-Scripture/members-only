@@ -8,14 +8,15 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model user{
-  id   Int @id @default(autoincrement())
-  firstname   String  @unique
-  lastname    String
-  password    String
-  email   String @unique
+model user {
+  id        Int      @id @default(autoincrement())
+  firstname String
+  lastname  String
+  email     String   @unique
+  password  String
   messages  message[]
 }
+
 
 model message{
   id      Int    @id @default(autoincrement())
