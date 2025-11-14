@@ -31,6 +31,9 @@ app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // authentication logic
 
 app.use(session({
@@ -86,7 +89,7 @@ app.use(session({
 app.use('/auth', userRouter);
 app.use('/', homeRouter);
 app.use('/messages', messageRouter);
-app.use('/dashboard', dashboardRouter);
+// app.use('/dashboard', dashboardRouter);
 app.use('/dashboard', dashboardRouter);
   
 

@@ -5,41 +5,50 @@ exports.signup_post = async (req, res) => {
   try {
     const { firstname, lastname, email, password } = req.body;
 
-    // Check if email already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email }
-    });
+    // Password validation
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      return res.render("signup", {
+        error: "Password must be at least 8 chars, include uppercase, lowercase, and a special character.",
+        success: null
+      });
+    }
+
+    // Check if email exists
+    const existingUser = await prisma.user.findUnique({ where: { email } });
 
     if (existingUser) {
-      return res.render('signup', { error: 'Email already in use' });
+      return res.render("signup", { 
+        error: "Email already in use.",
+        success: null
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
-      data: {
-        firstname,
-        lastname,
-        email,
-        password: hashedPassword
-      }
+      data: { firstname, lastname, email, password: hashedPassword }
     });
 
-    // Auto-login after signup
-    req.login(user, (err) => {
-      if (err) return res.render('signup', { error: 'Login failed' });
+    req.login(user, err => {
+      if (err) {
+        return res.render("signup", { error: "Error logging in after signup.", success: null });
+      }
 
-      res.render('success', {
-        message: `Welcome aboard, ${user.firstname}!`,
-        redirectUrl: '/dashboard'
+      return res.render("success", {
+        success: "Signup successful! Redirecting...",
+        error: null,
+        redirectUrl: "/dashboard"
       });
     });
 
   } catch (err) {
     console.error(err);
-    res.render('signup', { error: 'Server error. Try again.' });
+    return res.render("signup", { error: "Server error.", success: null });
   }
 };
+
 
 
 exports.login_post = (req, res, next) => {
@@ -56,7 +65,7 @@ exports.login_post = (req, res, next) => {
 
       // Render success page with popup + redirect
       return res.render('success', {
-        message: 'Login successful!',
+        success: 'Login successful! Redirecting ....',
         redirectUrl: '/dashboard'
       });
     });
@@ -73,8 +82,9 @@ exports.logout_get = (req, res) => {
 
     // Render success page with popup + redirect
     res.render('success', {
-      message: 'Logout successful!',
-      redirectUrl: '/'
+      success: 'Logout successful! Redirecting ...',
+      redirectUrl: '/',
+      error:null
     });
   });
 };

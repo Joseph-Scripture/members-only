@@ -3,94 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/flash.css">
 
   <style>
-    body {
-      font-family: "Inter", sans-serif;
-      padding: 2rem;
-      background: #f8fafc;
-    }
-
-    .container {
-      max-width: 700px;
-      margin: auto;
-    }
-
-    h1 {
-      margin-bottom: 1rem;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 80px;
-      border-radius: 8px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      outline: none;
-      resize: vertical;
-      margin-bottom: 1rem;
-    }
-
-    button {
-      padding: 10px 16px;
-      background: #2563eb;
-      border: none;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #1d4ed8;
-    }
-
-    .message {
-      background: white;
-      padding: 1rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      margin-top: 1.2rem;
-    }
-
-    .author {
-      font-weight: bold;
-      color: #1e3a8a;
-    }
-
-    .timestamp {
-      font-size: 0.85rem;
-      color: #6b7280;
-      margin-bottom: 0.5rem;
-    }
+  
   </style>
 </head>
 
 <body>
-<div class="container">
+  <body>
 
-  <h1>Welcome, <%= user.firstname %> </h1>
-
-  <form action="/messages/new" method="POST">
-    <textarea name="content" required placeholder="Write a message..."></textarea>
-    <button type="submit">Post Message</button>
-  </form>
-
-  <h2 style="margin-top: 2rem;">Recent Messages</h2>
-
-  <% messages.forEach(msg => { %>
-    <div class="message">
-      <div class="author">
-        <%= msg.user.firstname %> <%= msg.user.lastname %>
+    <!-- Flash messages -->
+    <%- include('partials/flash') %>
+  
+    <div class="dashboard-container">
+      <h1>Welcome, <%= user.firstname %>!</h1>
+  
+      <!-- Logout button -->
+      <form action="/auth/logout" method="GET" style="display:inline;">
+        <button type="submit" class="btn-logout">Logout</button>
+      </form>
+  
+      <!-- Message creation form -->
+      <form action="/messages/new" method="POST">
+        <textarea name="content" placeholder="Write a message..." required></textarea>
+        <button type="submit">Post Message</button>
+      </form>
+  
+      <!-- Existing messages -->
+      <div class="messages-list">
+        <% messages.forEach(msg => { %>
+          <div class="message">
+            <div class="author"><%= msg.user.firstname %> <%= msg.user.lastname %></div>
+            <p><%= msg.content %></p>
+          </div>
+        <% }) %>
       </div>
-
-      <div class="timestamp">
-        Message <%= msg.id %>
-      </div>
-
-      <p><%= msg.content %></p>
     </div>
-  <% }) %>
-
-</div>
-</body>
+  
+    <script src="/js/flash.js"></script>
+  </body>
 </html>

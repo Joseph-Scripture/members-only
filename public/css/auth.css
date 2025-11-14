@@ -1,0 +1,124 @@
+/* PAGE BACKGROUND */
+body {
+  font-family: "Inter", sans-serif;
+  background: #f1f5f9;
+  margin: 0;
+  padding: 0;
+}
+
+/* CENTERED CARD */
+.auth-container {
+  width: 400px;
+  margin: 70px auto;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+/* TITLE */
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #1e3a8a;
+  font-size: 1.8rem;
+}
+
+/* FORM STYLING */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form label {
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+.auth-form input {
+  padding: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  outline: none;
+  transition: 0.2s;
+  font-size: 1rem;
+}
+
+.auth-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
+/* BUTTON */
+.auth-form button {
+  background: #2563eb;
+  color: white;
+  padding: 12px;
+  font-size: 1.05rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
+}
+
+.auth-form button:hover {
+  background: #1e40af;
+}
+
+/* ERROR BOX */
+.error-box {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #dc2626;
+  font-size: 0.95rem;
+}
+.error-box {
+    background: #ffdddd;
+    color: #a10000;
+    padding: 12px 16px;
+    border-left: 4px solid #e60000;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .close-btn {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #a10000;
+    padding: 0 4px;
+    line-height: 1;
+  }
+  
+  .close-btn:hover {
+    color: #ff0000;
+  }
+  
+/* SWITCH LINK */
+.switch-text {
+  text-align: center;
+  margin-top: 1rem;
+  color: #475569;
+}
+
+.switch-text a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.switch-text a:hover {
+  text-decoration: underline;
+}

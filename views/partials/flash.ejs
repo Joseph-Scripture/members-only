@@ -1,0 +1,17 @@
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<% if (typeof error !== 'undefined' && error) { %>
+    <div class="flash flash-error" id="flashBox">
+      <span><%= error %></span>
+      <button class="flash-close" onclick="closeFlash()">X</button>
+    </div>
+  <% } %>
+  
+  <% if (typeof success !== 'undefined' && success) { %>
+    <div class="flash flash-success" id="flashBox">
+      <span><%= success %></span>
+      <!-- <button class="flash-close" onclick="closeFlash()"></button> -->
+    </div>
+  <% } %>
+  

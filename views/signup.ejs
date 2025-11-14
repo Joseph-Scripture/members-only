@@ -4,40 +4,41 @@
   <meta charset="UTF-8">
   <title>Signup</title>
   <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/flash.css">
 </head>
 
 <body>
+    
 
-<div class="auth-container">
+    <div class="auth-container">
 
-  <h2>Create Your Account</h2>
+    <h2>Create Your Account</h2>
 
-  <% if (error) { %>
-      <div class="error-box"><%= error %></div>
-  <% } %>
+    <%- include('partials/flash') %>
+    
+    <form method="POST" action="/auth/signup" class="auth-form">
+        <label>First Name</label>
+        <input type="text" name="firstname" required>
 
-  <form method="POST" action="/auth/signup" class="auth-form">
-    <label>First Name</label>
-    <input type="text" name="firstname" required>
+        <label>Last Name</label>
+        <input type="text" name="lastname" required>
 
-    <label>Last Name</label>
-    <input type="text" name="lastname" required>
+        <label>Email</label>
+        <input type="email" name="email" required>
 
-    <label>Email</label>
-    <input type="email" name="email" required>
+        <label>Password</label>
+        <input type="password" name="password" required>
 
-    <label>Password</label>
-    <input type="password" name="password" required>
+        <button type="submit">Sign Up</button>
+    </form>
 
-    <button type="submit">Sign Up</button>
-  </form>
+    <p class="switch-text">
+        Already have an account?
+        <a href="/auth/login">Login here</a>
+    </p>
 
-  <p class="switch-text">
-    Already have an account?
-    <a href="/auth/login">Login here</a>
-  </p>
-
-</div>
+    </div>
+    <script src="/js/auth.js"></script>
 
 </body>
 </html>

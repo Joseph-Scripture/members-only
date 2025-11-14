@@ -11,7 +11,7 @@ router.post('/login', authController.login_post);
 router.get('/logout', authController.logout_get);
 
 router.get('/signup', (req, res) =>{
-    res.render('signup')
+    res.render('signup', {error: null})
 });
 router.get('/login', (req, res) => {
     res.render('login')
